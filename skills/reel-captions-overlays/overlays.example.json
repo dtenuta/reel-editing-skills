@@ -1,0 +1,262 @@
+{
+ "_doc": {
+  "what": "Template: a ~60 s sponsored talking-head reel (sponsor 'Acme Voice', a placeholder) with every overlay type: a hook title card, a step list, an old-vs-new split, a search-pill screen takeover, a float card, two audible promptDemo beats (a language demo and a four-segment emotion arc), a tool chipCard, a closing title card and a Comment / WORD CTA with a sponsor offer line. Times are illustrative. new_reel.sh rewrites 'source' to your input file; replace the text, times and corrections with your own reel's.",
+  "sponsored": "true for paid/brand reels. verify.py then warns when the reel has fewer than 2 demo beats (promptDemo overlays, or any overlay with \"demo\": true). Sponsored reels must SHOW the product with audible demos, not only talk about it.",
+  "promptDemo": "Audible product demo beat (HyperFrames only; Remotion skips it). Full-frame editorial card over the demo audio: label pill (no logos, say how it was really made, e.g. 'Acme Voice · v2 model'), DM Serif title naming the task, a typed prompt (typeAt..typeEnd s), the exact model script with [direction] tags in red, and one waveform row per clip under it. rows: [{tag, kind: before|after|plain, start, end, mark: {start, end, label, strike}, segments: [{start, end, label, tone: cool|mid|hot}]}]. segments: any number of emotion markers (e.g. sad / excited! / sad / excited!), timed from the reel transcript; each draws a bracket that fills with the playhead and pops its label, and the played bars take the segment colour. An emotion demo needs 2+ shifts. Bars are the reel's own audio (build_edit --video). Start the card 1-2 frames before the insert and end it on the B-roll shot's end (cuts.txt). Put the span in sansWindows (ending before the next spoken word's midpoint) so captions on the demo audio switch to sans. The music stage ducks the bed a further demo_duck_db (8 dB) under the rows and music_verify checks every labelled segment is within 6 LU of the speaker's normal speech. BEFORE/AFTER rows (kind before/after + mark, strike: true on BEFORE) suit a 'fix one word' demo. video: optional screen recording in hyperframes/assets/ that replaces the card and rows over the same span.",
+  "cta": "Comment / WORD end card. offer (sponsored reels, v7): the brand's offer line on a paper card under the chin, in their words, e.g. \"Use my link for a\\nFREE 14-day trial.\" (\\n = line break, ALL-CAPS words get a white-on-red box). offerAt (s, default start + 10 frames) is when it pops; build_edit derives offerY (under the chin from --faces) and offerFs (fits 720px, max 46px). It must be fully on screen >= 2.5 s (verify.py hard check): if the reel ends too soon, hold the last frame with scripts/hold_end.sh and set end to the new length (one reel needed 32 extra frames).",
+  "beforeAfter": "A before -> after row pair repeats the same words, so it needs an unmistakable separator (v7, after a sponsor's reviewer heard such a pair as a glitch): >= 0.4 s gap in the cut, a switch whoosh (music_mix adds it; opt out switchSfx: false), the big full-width BEFORE/AFTER band switching on the AFTER clip's first frame (build_edit writes ba; opt out switchLabel: false; labels beforeLabel / afterLabel), ideally a spoken cue. build_edit, verify.py and music_verify.py warn when a repeating pair lacks it.",
+  "tools": "Keep the creator's own tool recommendations (the chipCard); never cut them to make room for sponsor demos."
+ },
+ "source": "reel.mp4",
+ "sponsored": true,
+ "corrections": [
+  {
+   "match": [
+    "Ackme"
+   ],
+   "replace": "Acme"
+  },
+  {
+   "match": [
+    "re",
+    "-edit,"
+   ],
+   "replace": "re-edit,"
+  },
+  {
+   "match": [
+    "re",
+    "-motion,"
+   ],
+   "replace": "Remotion,"
+  },
+  {
+   "match": [
+    "hyperframes."
+   ],
+   "replace": "HyperFrames."
+  },
+  {
+   "match": [
+    "Acme",
+    "Voice."
+   ],
+   "replace": "Acme Voice."
+  },
+  {
+   "match": [
+    "Même",
+    "voix,"
+   ],
+   "replace": "Même voix,"
+  },
+  {
+   "match": [
+    "autre",
+    "langue."
+   ],
+   "replace": "autre langue."
+  }
+ ],
+ "sansWindows": [
+  [
+   28.5,
+   31.0
+  ],
+  [
+   39.45,
+   41.27
+  ],
+  [
+   49.97,
+   56.6
+  ]
+ ],
+ "safe": {
+  "faceBox": [
+   0.25,
+   0.26,
+   0.9,
+   0.58
+  ],
+  "note": "face (Haar, generous) spans y 26-58%; overlays live in y<25% or x outside face, captions y>=58%"
+ },
+ "overlays": [
+  {
+   "id": "hook",
+   "type": "titleCard",
+   "start": 0.9,
+   "end": 4.1,
+   "title": "EDITING SHORTCUT",
+   "subtitle": "One fix, no reshoot"
+  },
+  {
+   "id": "steps",
+   "type": "steps",
+   "start": 8.34,
+   "end": 18.5,
+   "kicker": "How I do it",
+   "items": [
+    {
+     "at": 9.46,
+     "text": "Talk to the camera"
+    },
+    {
+     "at": 11.58,
+     "text": "Drop the clip into the editor"
+    },
+    {
+     "at": 15.02,
+     "text": "Let the tools do the cuts"
+    }
+   ]
+  },
+  {
+   "id": "oldnew",
+   "type": "split",
+   "start": 23.96,
+   "end": 28.5,
+   "newAt": 26.1,
+   "old": "Book the studio\nagain",
+   "new": "Patch one line\nat my desk"
+  },
+  {
+   "id": "voice",
+   "type": "takeover",
+   "start": 28.53,
+   "end": 31.0,
+   "query": "AI voice tools",
+   "cardTitle": "Line fixer",
+   "cardSub": "Rewrite a sentence, keep the voice",
+   "chips": [
+    "Same voice",
+    "New words",
+    "Acme Voice"
+   ]
+  },
+  {
+   "id": "langs",
+   "type": "floatCard",
+   "start": 35.95,
+   "end": 39.4,
+   "rotate": -4,
+   "side": "left",
+   "big": "30+",
+   "label": "languages",
+   "small": "Acme Voice v2 model"
+  },
+  {
+   "id": "demoLang",
+   "type": "promptDemo",
+   "start": 39.45,
+   "end": 41.2667,
+   "label": "Acme Voice · v2 model",
+   "title": "Same voice, French",
+   "prompt": "Now read it in French, same voice.",
+   "typeAt": 39.5,
+   "typeEnd": 39.9,
+   "script": "Même voix, autre langue.",
+   "rows": [
+    {
+     "tag": "v2 · French",
+     "kind": "plain",
+     "start": 39.5,
+     "end": 41.1333
+    }
+   ],
+   "video": null
+  },
+  {
+   "id": "tools",
+   "type": "chipCard",
+   "start": 41.36,
+   "end": 45.3,
+   "rotate": 2,
+   "side": "center",
+   "kicker": "Also in my kit",
+   "chips": [
+    "Remotion",
+    "HyperFrames"
+   ],
+   "small": "Both open source"
+  },
+  {
+   "id": "emotion",
+   "type": "floatCard",
+   "start": 46.6,
+   "end": 49.9,
+   "rotate": -3,
+   "side": "left",
+   "width": 560,
+   "kicker": "Prompt tip",
+   "label": "Change emotions mid-sentence",
+   "small": "with one prompt"
+  },
+  {
+   "id": "demoEmotion",
+   "type": "promptDemo",
+   "start": 49.9667,
+   "end": 56.7667,
+   "label": "Acme Voice · v2 model",
+   "title": "Sad to excited, one take",
+   "prompt": "Start sad, then shift to excited halfway through. Change it up a couple of times.",
+   "typeAt": 50.08,
+   "typeEnd": 51.0,
+   "script": "[sad, at a normal speaking volume] The concert sold out before I got a ticket, [suddenly very excited] wait, my friend has a spare! [sad again, at a normal speaking volume] Oh, it's for the wrong night, [super excited] no, it's for tonight!",
+   "rows": [
+    {
+     "tag": "v2 · one take",
+     "kind": "plain",
+     "start": 50.0333,
+     "end": 56.6333,
+     "segments": [
+      {
+       "start": 50.03,
+       "end": 51.62,
+       "label": "sad",
+       "tone": "cool"
+      },
+      {
+       "start": 51.86,
+       "end": 53.2,
+       "label": "excited!",
+       "tone": "hot"
+      },
+      {
+       "start": 53.4,
+       "end": 54.56,
+       "label": "sad",
+       "tone": "cool"
+      },
+      {
+       "start": 54.72,
+       "end": 56.2,
+       "label": "excited!",
+       "tone": "hot"
+      }
+     ]
+    }
+   ],
+   "video": null
+  },
+  {
+   "id": "closer",
+   "type": "titleCard",
+   "start": 59.9633,
+   "end": 64.1033,
+   "title": "TRY IT ONCE",
+   "subtitle": "before your next shoot"
+  },
+  {
+   "id": "cta",
+   "type": "cta",
+   "start": 64.3033,
+   "end": 68.2,
+   "kicker": "Comment",
+   "word": "GUIDE",
+   "sub": "and I'll send you the link",
+   "offer": "Use my link for a\nFREE 14-day trial.",
+   "offerAt": 64.6367
+  }
+ ]
+}

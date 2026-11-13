@@ -1,0 +1,17 @@
+{
+ "_doc": "Template plan. Replace the source paths, then fill one piece per kept line in story order. lo/hi = hard bounds in the silence around the chosen attempt, ws/we = Whisper start of its first word / end of its last word, text = the expected words. Settings left out use the defaults in scripts/common.py (tail_mode tight, reframe on, speech leveling on). Times below are illustrative.",
+ "sources": {"A": "/abs/path/to/hook_clip.MOV", "B": "/abs/path/to/main_take.MOV"},
+ "settings": {},
+ "pieces": [
+  {"label": "hook",  "src": "A", "lo": 0.0,   "ws": 0.2,    "we": 4.46,   "hi": 5.3,   "text": "Here's the one habit that changed how I plan my week."},
+  {"label": "L1",    "src": "B", "lo": 40.5,  "ws": 40.84,  "we": 44.08,  "hi": 44.9,  "text": "Most weeks I used to start with a messy to-do list."},
+  {"label": "L2",    "src": "B", "lo": 58.6,  "ws": 58.82,  "we": 63.0,   "hi": 64.5,  "text": "Every morning I'd rewrite the whole thing from scratch."},
+  {"label": "L3",    "src": "B", "lo": 182.8, "ws": 183.2,  "we": 185.0,  "hi": 187.9, "text": "It never really felt finished."},
+  {"label": "L4",    "src": "B", "lo": 189.85,"ws": 190.25, "we": 192.3,  "hi": 193.0, "text": "Usually that meant losing the first hour."},
+  {"label": "L5",    "src": "B", "lo": 201.9, "ws": 202.2,  "we": 203.74, "hi": 204.0, "compress": false, "text": "Now I keep it simple."},
+  {"label": "L6a",   "src": "B", "lo": 223.395,"ws": 223.44, "we": 226.7,  "hi": 227.5, "text": "I pick three things that matter,"},
+  {"label": "L6b",   "src": "B", "lo": 232.6, "ws": 232.9,  "we": 234.5,  "hi": 235.5, "text": "and park everything else."},
+  {"label": "L7",    "src": "B", "lo": 299.3, "ws": 299.68, "we": 302.52, "hi": 303.3, "text": "The rest of the week runs on that list."},
+  {"label": "CTA",   "src": "B", "lo": 362.8, "ws": 363.18, "we": 368.08, "hi": 369.5, "text": "If you want the template, comment PLAN and I'll send it over."}
+ ]
+}

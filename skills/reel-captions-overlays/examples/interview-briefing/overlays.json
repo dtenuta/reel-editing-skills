@@ -1,0 +1,159 @@
+{
+ "_doc": "Template for the interview 'briefing' look (examples/interview-briefing/gen.mjs), a custom per-reel style rather than the default template. Every on-screen word lives here: replace the placeholder texts with lines your guest actually says and move every *At time onto the word that triggers it (reel seconds, from words_raw.json). The times below are illustrative for a ~55 s cut plus a short held last frame. The slate is optional; leave out any block you do not need.",
+ "source": "interview_cut.mp4",
+ "sansWindows": [
+  [
+   0,
+   57.1
+  ]
+ ],
+ "corrections": [],
+ "keywords": [
+  "hiring",
+  "replaced",
+  "faster",
+  "bigger",
+  "bolder"
+ ],
+ "overlays": [
+  {
+   "id": "hook",
+   "type": "hook",
+   "start": 0.0,
+   "end": 6.0,
+   "qAt": 0.48,
+   "guestAt": 1.14,
+   "company": "ACME",
+   "name": "GUEST NAME",
+   "role": "EX-ACME · JOB TITLE"
+  },
+  {
+   "id": "question",
+   "type": "question",
+   "start": 7.0,
+   "end": 43.0833,
+   "word": "HIRING",
+   "collapseAt": 10.4,
+   "bridgeAt": 35.6333,
+   "pills": [
+    {
+     "at": 37.6933,
+     "text": "MORE PROJECTS"
+    },
+    {
+     "at": 38.9933,
+     "text": "SAME TEAM"
+    }
+   ],
+   "answeredAt": 40.8333,
+   "stampAt": 42.1133,
+   "stamp": "NOBODY GOT REPLACED"
+  },
+  {
+   "id": "ledger",
+   "type": "ledger",
+   "start": 10.6,
+   "end": 24.3333,
+   "thenTag": "THEN",
+   "nowTag": "NOW",
+   "thenLabel": "WHEN I STARTED",
+   "nowLabel": "WHEN I LEFT",
+   "rows": [
+    {
+     "at": 12.84,
+     "text": "Writing every draft by hand"
+    },
+    {
+     "at": 15.32,
+     "text": "Weekly status meetings"
+    },
+    {
+     "at": 17.19,
+     "text": "Reviewing every line"
+    }
+   ],
+   "nowAt": 20.1933,
+   "strikes": [
+    21.4333,
+    21.8133,
+    22.1933
+   ],
+   "aiAt": 23.3733,
+   "ai": "AI DOES THE FIRST DRAFT.",
+   "aiHighlight": "AI"
+  },
+  {
+   "id": "tool",
+   "type": "tool",
+   "start": 24.3333,
+   "end": 31.4333,
+   "hub": "ONE\nTOOL",
+   "talk": "TALK TO IT",
+   "tiles": [
+    "DOCS",
+    "SHEETS",
+    "SLIDES",
+    "EMAIL"
+   ],
+   "hubAt": 24.7533,
+   "linkAt": 26.0533,
+   "talkAt": 27.8333,
+   "buildAt": 28.5533,
+   "stampAt": 30.2533,
+   "stamp": "NEW SINCE LAST YEAR"
+  },
+  {
+   "id": "blur",
+   "type": "blur",
+   "start": 31.4833,
+   "end": 35.6133,
+   "kicker": "BY THE END",
+   "line1": "ROLES BLURRED.",
+   "line2": "EVERYONE LEARNED NEW SKILLS.",
+   "line3": "EVERYONE SHIPS.",
+   "kickerAt": 31.5333,
+   "blurAt": 33.1733,
+   "line2At": 33.8533,
+   "line3At": 35.0133
+  },
+  {
+   "id": "meter",
+   "type": "meter",
+   "start": 43.1,
+   "end": 49.85,
+   "kicker": "INSTEAD OF…",
+   "down": "HOURS",
+   "up": "OUTPUT",
+   "label": "HIGHER",
+   "insteadAt": 43.28,
+   "downAt": 43.94,
+   "xAt": 45.48,
+   "upAt": 47.44,
+   "labelAt": 49.5,
+   "labelEnd": 49.78
+  },
+  {
+   "id": "payoff",
+   "type": "payoff",
+   "start": 49.9,
+   "end": 55.4,
+   "top": "SAME TEAM",
+   "mid": "BECAUSE THE PROJECTS ARE…",
+   "big1": "BIGGER.",
+   "big2": "BOLDER.",
+   "topAt": 50.6,
+   "midAt": 52.38,
+   "big1At": 54.2,
+   "big2At": 55.08
+  },
+  {
+   "id": "slate",
+   "type": "takeover",
+   "start": 55.4,
+   "end": 57.0334,
+   "big1": "BIGGER.",
+   "big2": "BOLDER.",
+   "small": "GUEST NAME · EX-ACME JOB TITLE"
+  }
+ ]
+}

@@ -1,0 +1,78 @@
+{
+ "_doc": {
+  "what": "Template for a ~60 s talking-head reel with one promptDemo beat: the steady-funk-bed preset, one licensed track as a single bed from 0 to the end, and an extra music duck under the demo. Replace the reel name, the track file (or use a Mixkit track: mixkit_id + tag instead of file), its bpm and cue, and the end time.",
+  "style": "Style preset name (music_presets/<name>.json, made by ref_audio_profile.py from the reference creator's reels) or 'none'. Its mix block gives the defaults for section level, duck, eq, SFX levels, the SFX auto map and SFX samples; anything set in this plan wins. music_verify.py checks the result against the preset's measured ranges.",
+  "tone_map": "Story beats from the transcript. Documentation for the edit and the verify image; sections implement it. In the reference style the music does NOT follow the tone (one bed, no switches, no stops); the SFX mark the turns.",
+  "tracks": "Key -> a local licensed 'file' (absolute, or relative to this plan) or a Mixkit track (mixkit_id + tag; fetched to ~/.cache/reel-music/mixkit). No music ships with this skill: use a track you have the licence for. bpm: measured with music_fetch.py analyze (check kick spacing; trackers often report 2/3 or 3/2). Audition candidates against the preset with ref_audio_profile.py tracks first.",
+  "grids": "One tempo fitted to anchors (story beats) so they land on bar lines (snap 'bar') or beats (snap 'beat'); 'bpm' overrides the fit. Tracks on a grid are atempo-stretched to it (keep within ~8%).",
+  "sections": "cue = a downbeat in the source (s; snapped to the nearest kick onset within cue_tol), placed on reel time cue_at. level = target LUFS of the music while the speaker talks (default from the style preset, -27.2 for steady-funk-bed). in/out: fade, cut, join, xfade, sweep_in, sweep_cut, filter_out, tape_stop, button. dropouts: mute between two grid-snapped times, track keeps time. Reference style: a single section 0 -> end, in cut, out cut.",
+  "duck": "Optional override of the style's ducking (steady-funk-bed: 0.1 dB, i.e. a constant bed). depth_db while talking, attack/release s, lead = start ducking before the word.",
+  "eq": "Optional override of the style's music bus EQ (steady-funk-bed: hp 35 Hz, -5 dB at 3 kHz q 0.7, lp 9.5 kHz).",
+  "sfx": "auto = sounds on graphic entrances from edit.json via the style's auto_map (steady-funk-bed: sub boom on title cards, whoosh into a big boom on a screen takeover, nothing else). skip by overlay id or 'id:kind'; extra hits may snap to a grid; samples = licensed Mixkit SFX by id (mixkit_sfx) or a local file, else synthesized by sfx.py; levels: dB relative to the speech's per-word loudest 100 ms.",
+  "master": "Constant gain to lufs (fails if it would move the speech more than max_speech_change_db); true-peak guard trims only music+SFX.",
+  "duck_windows": "Extra music-only duck under audible product demos. duck_demos (default true) adds every promptDemo overlay's row span from edit.json at demo_duck_db (default 8 dB); duck_windows adds manual [start, end, extra_db] spans. music_verify checks each drop."
+ },
+ "reel": "reel_captioned.mp4",
+ "style": "steady-funk-bed",
+ "license": {
+  "provider": "<who licensed the track to you>",
+  "name": "<licence name>",
+  "url": "<licence url>",
+  "commercialUse": true,
+  "attributionRequired": false
+ },
+ "tone_map": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "tone": "one confident groove under the whole reel (reference style: no switches, no stops)",
+   "music": "your licensed track from its first full groove bar, level under the voice, ducked a further 8 dB under the demo, hard cut with the last frame"
+  }
+ ],
+ "tracks": {
+  "A": {
+   "file": "/abs/path/to/your_licensed_track.mp3",
+   "title": "Your licensed track",
+   "genre": "funk",
+   "bpm": 110.0
+  }
+ },
+ "grids": {
+  "A": {
+   "bpm_hint": 110.0,
+   "bpm": 110.0,
+   "anchors": [
+    0.0
+   ]
+  }
+ },
+ "sections": [
+  {
+   "track": "A",
+   "grid": "A",
+   "start": 0.0,
+   "end": 60.0,
+   "cue": 0.0,
+   "cue_tol": 0.03,
+   "cue_at": 0.0,
+   "tone": "whole reel",
+   "in": {
+    "type": "cut"
+   },
+   "out": {
+    "type": "cut"
+   }
+  }
+ ],
+ "sfx": {
+  "auto": true
+ },
+ "master": {
+  "lufs": -14.0,
+  "tp": -1.0,
+  "tp_margin": 0.3,
+  "max_speech_change_db": 0.5
+ },
+ "duck_demos": true,
+ "demo_duck_db": 8.0
+}

@@ -1,0 +1,9 @@
+# Main venv for both skills: transcription, face detection, cut planning, verification, caption metrics.
+# Tested with Python 3.13 and the versions in brackets.
+faster-whisper>=1.0                  # [1.2.1] word-timestamp transcription
+opencv-contrib-python-headless>=4.8  # [4.13.0.92] YuNet face detection (FaceDetectorYN) and Haar fallback
+numpy>=1.26                          # [2.5.0]
+scipy>=1.11                          # filters; talking-head-edit falls back to numpy without it
+fonttools>=4.40                      # [4.63.0] caption_metrics.py reads the template fonts
+brotli>=1.0                          # [1.2.0] lets fontTools read .woff2 fonts
+# The music stage uses its own venv: skills/reel-captions-overlays/scripts/setup_audio.sh

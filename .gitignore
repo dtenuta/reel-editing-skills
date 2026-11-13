@@ -1,0 +1,30 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Video, audio and render output (never commit footage or music)
+*.mp4
+*.mov
+*.MOV
+*.m4v
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.aiff
+renders/
+out/
+qc/
+
+# Model checkpoints downloaded by setup_audio.sh --analysis
+*.pth
+
+# OS and editor files
+.DS_Store
+*.swp

@@ -1,0 +1,202 @@
+/* Shared look for the reel caption/overlay layer. Design space is 1080x1920 (rendered at 2x = 2160x3840).
+   Used verbatim by the Remotion project (imported) and the HyperFrames project (inlined).
+   Face safe zone (measured): y 26-58%, x 25-90%. Overlays stay in y < 25% (or are full-frame takeovers).
+   Captions (v2, after v1 was judged "too thin"): heavy DM Serif Display 136px, white, 3px dark outline + strong drop
+   shadow, one lane centered at 75% (below the speaker's hands, above the bottom-20% UI). Platform UI: bottom 20%, right 150px. */
+:root {
+  --red: #B23A2E;
+  --deep: #8E1F17;
+  --paper: #FBF7F1;
+  --ink: #141414;
+  --serif: 'ReelSerif', Georgia, serif;
+  --capserif: 'ReelCapSerif', 'ReelSerif', Georgia, serif;
+  --sans: 'ReelSans', 'Inter', sans-serif;
+  --cond: 'ReelCond', 'Oswald', sans-serif;
+}
+#stage { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+#stage .bg { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; }
+
+/* ---------- captions: one word (occasionally two) ----------
+   Legibility floor (verify.py "legibility"): heavy serif (stems >= 0.12em), >= 120px, dark outline >= 2.5px
+   outside the glyph, and drop shadow. The outline is a stroked copy of the word (::before, data-t) painted behind
+   the fill, so the stroke never eats into the letters. --fs is set per page by build_edit.py so long pages fit 820px. */
+.cap { position: absolute; left: 60px; width: 960px; height: 180px; top: 1350px; /* center y=1440 (75%) */
+  display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 30; }
+.cap .w { position: relative; display: inline-block; white-space: nowrap; color: #fff; transform-origin: 50% 60%;
+  isolation: isolate; font-family: var(--capserif); font-size: var(--fs, 136px); line-height: 1; letter-spacing: 0; }
+.cap .w::before { content: attr(data-t); position: absolute; left: 0; top: 0; z-index: -1; white-space: nowrap;
+  color: rgba(12,10,9,.86); -webkit-text-stroke: 6px rgba(12,10,9,.86); /* 3px outside the glyph */
+  text-shadow: 0 0 3px rgba(0,0,0,.55), 0 5px 12px rgba(0,0,0,.55), 0 14px 34px rgba(0,0,0,.45); }
+.cap.sans .w { font-family: var(--sans); font-weight: 900; font-size: var(--fs, 120px); letter-spacing: -0.03em; }
+.cap.sans .w::before { -webkit-text-stroke-width: 6px; }
+
+/* ---------- title punch card (hook) ---------- */
+.tcard { position: absolute; left: 135px; width: 810px; top: 190px; z-index: 20; }
+.tcard .box { background: var(--red); border-radius: 6px; padding: 26px 30px 30px; text-align: center;
+  box-shadow: 0 18px 44px rgba(0,0,0,.35); transform-origin: 50% 50%; }
+.tcard .t { font-family: var(--cond); font-size: 118px; line-height: .98; color: #fff; letter-spacing: .01em; text-transform: uppercase; }
+.tcard .s { font-family: var(--serif); font-size: 62px; line-height: 1.05; color: #fff; margin-top: 6px; }
+
+/* ---------- CTA: "Comment" + red word box ---------- */
+.cta { position: absolute; left: 0; width: 1080px; top: 140px; z-index: 20; text-align: center; }
+.cta .k { font-family: var(--capserif); font-style: italic; font-size: 92px; line-height: 1; color: #fff;
+  text-shadow: 0 0 3px rgba(0,0,0,.7), 0 4px 10px rgba(0,0,0,.55), 0 10px 30px rgba(0,0,0,.45); transform-origin: 50% 100%; }
+.cta .box { display: inline-block; margin-top: 14px; background: var(--red); border-radius: 6px; padding: 20px 46px 14px;
+  box-shadow: 0 18px 44px rgba(0,0,0,.35); transform-origin: 50% 50%; }
+.cta .word { font-family: var(--cond); font-size: 196px; line-height: .95; color: #fff; letter-spacing: .02em; }
+/* CTA offer line (sponsored reels, e.g. "Use my link for a FREE 14-day trial."): the
+   brand's offer on a paper card under the chin (top = offerY, chin + 3%, 55-60% of the height), above the caption ink
+   (~1385px). 780px box = x 150-930, clear of the right 150px UI; font size (offerFs) is fitted by build_edit.py.
+   ALL-CAPS words get the red box (.em). "Comment / WORD" stays the main element; this is the supporting line. */
+.ctaoffer { position: absolute; left: 150px; width: 780px; z-index: 20; text-align: center; }
+.ctaoffer .card { display: inline-block; background: var(--paper); border-radius: 18px; padding: 22px 30px 24px;
+  font-family: var(--sans); font-weight: 800; font-size: 44px; line-height: 1.22; color: var(--ink); letter-spacing: -0.01em;
+  box-shadow: 0 22px 48px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); transform-origin: 50% 50%; }
+.ctaoffer .ln { white-space: nowrap; }
+.ctaoffer .em { display: inline-block; background: var(--red); color: #fff; font-weight: 900; border-radius: 6px;
+  padding: 0 .22em; margin: 0 .04em; line-height: 1.12; }
+
+/* ---------- floating cards (upper half, clear of the face) ---------- */
+.fcard { position: absolute; top: 200px; width: 470px; z-index: 20; }
+.fcard.left { left: 70px; }
+.fcard.right { right: 70px; }
+.fcard .card { background: var(--paper); border-radius: 22px; padding: 26px 34px 30px;
+  box-shadow: 0 26px 54px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); transform-origin: 50% 50%; }
+.fcard .big { font-family: var(--cond); font-size: 170px; line-height: .9; color: var(--red); }
+.fcard .label { font-family: var(--capserif); font-size: 60px; line-height: 1; color: var(--ink); margin-top: 4px; }
+.fcard .small { font-family: var(--sans); font-weight: 900; font-size: 24px; letter-spacing: .14em; text-transform: uppercase;
+  color: #6d6a66; margin-top: 16px; }
+.fcard .kick { font-family: var(--sans); font-weight: 900; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.fcard .row { display: flex; align-items: center; gap: 22px; margin-top: 10px; }
+.fcard .lang { font-family: var(--capserif); font-size: 88px; line-height: 1; color: var(--ink); }
+.fcard .kick + .label { margin-top: 10px; }
+.fcard .arrow { font-family: var(--capserif); font-size: 64px; line-height: 1; color: var(--red); }
+.flag-us { width: 84px; height: 56px; border-radius: 8px; overflow: hidden; flex: none; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+  background: linear-gradient(#3C3B6E, #3C3B6E) 0 0 / 40% 54% no-repeat,
+              repeating-linear-gradient(#B22234 0 7.6923%, #fff 7.6923% 15.3846%); }
+.flag-es { width: 84px; height: 56px; border-radius: 8px; overflow: hidden; flex: none;
+  background: linear-gradient(#AA151B 0 25%, #F1BF00 25% 75%, #AA151B 75% 100%); box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+
+/* ---------- screen-recording style takeover (red grid + search pill + card) ---------- */
+.tk { position: absolute; inset: 0; width: 1080px; height: 1920px; z-index: 10; }
+.tk .bgk { position: absolute; inset: 0; background-color: var(--deep);
+  background-image: linear-gradient(rgba(255,170,160,.13) 2px, transparent 2px),
+                    linear-gradient(90deg, rgba(255,170,160,.13) 2px, transparent 2px);
+  background-size: 135px 137.14px; background-position: -1px -1px; }
+.tk .pill { position: absolute; left: 70px; width: 940px; top: 250px; height: 124px; background: #fff; border-radius: 62px;
+  display: flex; align-items: center; padding: 0 40px; gap: 26px; box-shadow: 0 16px 40px rgba(0,0,0,.3); }
+.tk .pill svg { flex: none; }
+.tk .q { flex: 1; font-family: var(--sans); font-weight: 800; font-style: italic; font-size: 46px; color: #202124;
+  white-space: nowrap; overflow: hidden; letter-spacing: -0.02em; }
+.tk .q span { display: inline-block; }
+.tk .sheet { position: absolute; left: 70px; width: 940px; top: 430px; background: #fff; border-radius: 34px;
+  padding: 54px 56px 58px; box-shadow: 0 30px 70px rgba(0,0,0,.4); }
+.tk .ct { font-family: var(--serif); font-size: 128px; line-height: 1; color: var(--ink); }
+.tk .cs { font-family: var(--sans); font-weight: 800; font-size: 36px; color: #5f5c58; margin-top: 14px; letter-spacing: -0.01em; }
+.tk .wave { display: flex; align-items: center; gap: 9px; height: 190px; margin: 40px 0 34px; }
+.tk .wave i { display: block; width: 14px; border-radius: 7px; background: var(--red); transform-origin: 50% 50%; }
+.tk .chips { display: flex; flex-wrap: wrap; gap: 16px; }
+.tk .chip { font-family: var(--sans); font-weight: 800; font-size: 32px; color: var(--deep); background: #F6E7E3;
+  border-radius: 40px; padding: 16px 28px; }
+
+/* ---------- editorial cards (v2): steps list, old-vs-new split, chips card. All live in y < 25%. ---------- */
+.steps { position: absolute; left: 90px; width: 900px; top: 150px; z-index: 20; }
+.steps .card { background: var(--paper); border-radius: 26px; padding: 24px 36px 26px; transform-origin: 50% 50%;
+  box-shadow: 0 26px 54px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); }
+.steps .kick { font-family: var(--sans); font-weight: 900; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.steps .it { display: flex; align-items: center; gap: 22px; height: 70px; margin-top: 8px; }
+.steps .n { flex: none; width: 60px; height: 60px; border-radius: 30px; background: #d9d3cb; color: #fff;
+  font-family: var(--cond); font-size: 38px; line-height: 60px; text-align: center; }
+.steps .it.on .n { background: var(--red); }
+.steps .tx { font-family: var(--capserif); font-size: 54px; line-height: 1; color: var(--ink); white-space: nowrap; }
+
+.split { position: absolute; left: 80px; width: 920px; top: 175px; z-index: 20; display: flex; gap: 20px; }
+.split .pane { flex: 1; border-radius: 24px; padding: 24px 30px 30px; min-height: 236px; transform-origin: 50% 50%;
+  box-shadow: 0 24px 50px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); }
+.split .old { background: #2A2623; transform: rotate(-2deg); }
+.split .new { background: var(--red); transform: rotate(2deg); }
+.split .lab { font-family: var(--sans); font-weight: 900; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; }
+.split .old .lab { color: #A9A29B; } .split .new .lab { color: #FFD9D3; }
+.split .tx { font-family: var(--capserif); font-size: 52px; line-height: 1.06; color: #fff; margin-top: 12px; white-space: pre-line; }
+.split .old .tx { text-decoration: line-through; text-decoration-thickness: 4px; text-decoration-color: rgba(255,255,255,.55); }
+
+.chipcard { position: absolute; top: 190px; z-index: 20; }
+.chipcard.left { left: 70px; } .chipcard.right { right: 70px; } .chipcard.center { left: 50%; transform: translateX(-50%); }
+.chipcard .card { background: var(--paper); border-radius: 26px; padding: 26px 34px 30px; transform-origin: 50% 50%;
+  box-shadow: 0 26px 54px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); }
+.chipcard .kick { font-family: var(--sans); font-weight: 900; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.chipcard .chips { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
+.chipcard .chip { font-family: var(--capserif); font-size: 58px; line-height: 1; color: var(--ink); background: #fff;
+  border: 3px solid var(--ink); border-radius: 46px; padding: 14px 30px 16px; }
+.chipcard .small { font-family: var(--sans); font-weight: 900; font-size: 24px; letter-spacing: .14em; text-transform: uppercase;
+  color: #6d6a66; margin-top: 18px; }
+
+/* ---------- promptDemo (v3, sponsored reels): an audible product demo beat. Full-frame deep-red grid (same as
+   the takeover), label pill (words, never logos), DM Serif title, a paper prompt card with a typed prompt and the
+   model script, and a paper panel with one waveform row per clip (BEFORE dark / AFTER red / plain red). The bars
+   are the reel's own audio; a playhead runs while that clip plays. Everything sits above y 1300 so the caption
+   lane (y 1350-1530, sans captions inside sansWindows) and the bottom 20% stay clear. ---------- */
+.pdemo { position: absolute; inset: 0; width: 1080px; height: 1920px; z-index: 10; }
+.pdemo .bgk { position: absolute; inset: 0; background-color: var(--deep);
+  background-image: linear-gradient(rgba(255,170,160,.13) 2px, transparent 2px),
+                    linear-gradient(90deg, rgba(255,170,160,.13) 2px, transparent 2px);
+  background-size: 135px 137.14px; background-position: -1px -1px; }
+.pdemo .lab { position: absolute; left: 50%; top: 168px; transform: translateX(-50%); white-space: nowrap;
+  font-family: var(--sans); font-weight: 900; font-size: 27px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--paper); background: rgba(20,8,6,.34); border: 2px solid rgba(255,230,225,.28); border-radius: 40px;
+  padding: 14px 30px 13px; }
+.pdemo .ttl { position: absolute; left: 60px; width: 960px; top: 252px; text-align: center; font-family: var(--capserif);
+  font-size: 100px; line-height: 1; color: #fff; text-shadow: 0 6px 18px rgba(0,0,0,.35); transform-origin: 50% 60%; }
+.pdemo .stack { position: absolute; left: 70px; width: 940px; top: 400px; display: grid; grid-template-rows: minmax(348px, auto) auto;
+  row-gap: 22px; align-items: start; }
+.pdemo .pcard { position: relative; background: var(--paper); border-radius: 28px;
+  padding: 26px 36px 30px; box-shadow: 0 26px 54px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); transform-origin: 50% 50%; }
+.pdemo .pk { font-family: var(--sans); font-weight: 900; font-size: 24px; letter-spacing: .16em; text-transform: uppercase; color: var(--red); }
+.pdemo .pt { font-family: var(--sans); font-weight: 800; font-size: 46px; line-height: 1.16; color: var(--ink);
+  letter-spacing: -0.015em; margin-top: 10px; min-height: 107px; }
+.pdemo .pt .c { display: none; }
+/* typed text over an invisible full copy: the card has its final height from the first frame (no layout jump) */
+.pdemo .pt { position: relative; } .pdemo .pt .ghost { visibility: hidden; }
+.pdemo .pt .ptt { position: absolute; left: 0; right: 0; top: 0; }
+.pdemo .caret { display: inline-block; width: 5px; height: 46px; margin-left: 4px; vertical-align: -6px; background: var(--red); }
+.pdemo .ps { font-family: var(--sans); font-weight: 800; font-size: 27px; line-height: 1.32; color: #7a736c; margin-top: 16px;
+  padding-top: 14px; border-top: 2px solid #E8E1D8; }
+.pdemo .ps b { color: var(--red); font-weight: 900; }
+.pdemo .rows { position: relative; background: var(--paper); border-radius: 28px;
+  padding: 22px 34px 26px; box-shadow: 0 26px 54px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); }
+.pdemo .row + .row { margin-top: 16px; padding-top: 16px; border-top: 2px solid #E8E1D8; }
+.pdemo .top { position: relative; height: 56px; }
+.pdemo .tag { position: absolute; left: 0; top: 4px; font-family: var(--sans); font-weight: 900; font-size: 25px; letter-spacing: .16em;
+  text-transform: uppercase; color: #fff; border-radius: 10px; padding: 10px 16px 9px; background: var(--red); }
+.pdemo .row.before .tag { background: #2A2623; }
+/* emotion markers (v6): under the waveform, one bracket per segment (draws with the playhead) and its label below.
+   Any number of segments, e.g. sad -> excited -> sad -> excited. Tones: cool = sad (slate), mid = hopeful (ochre),
+   hot = excited (brand red); played bars take the same colour (gen.mjs PD_TONE). */
+.pdemo .bot { position: relative; height: 76px; margin-top: 10px; }
+.pdemo .sb { position: absolute; top: 0; height: 14px; box-sizing: border-box; border: 4px solid currentColor; border-top: 0;
+  border-radius: 0 0 6px 6px; transform-origin: 0 50%; }
+.pdemo .sg { position: absolute; top: 22px; font-family: var(--capserif); font-style: italic; font-size: 46px; line-height: 1;
+  padding: 2px 4px; transform-origin: 0 100%; white-space: nowrap; }
+.pdemo .cool { color: #56697A; } .pdemo .mid { color: #C28A2C; } .pdemo .hot { color: var(--red); }
+.pdemo .wv { position: relative; display: flex; align-items: center; justify-content: space-between; height: 120px; }
+.pdemo .wv i { display: block; width: 12px; border-radius: 6px; background: #D9D3CB; position: relative; z-index: 1; }
+.pdemo .mk { position: absolute; top: -8px; bottom: -8px; border-radius: 14px; background: rgba(178,58,46,.12);
+  border: 3px solid rgba(178,58,46,.55); z-index: 0; }
+.pdemo .row.before .mk { background: rgba(42,38,35,.08); border-color: rgba(42,38,35,.45); }
+.pdemo .mk b { position: absolute; bottom: 100%; left: -240px; right: -240px; display: flex; justify-content: center;
+  margin-bottom: 4px; white-space: nowrap; font-family: var(--capserif); font-weight: 400; font-size: 50px; line-height: 1; color: var(--red); transform-origin: 50% 100%; }
+.pdemo .row.before .mk b { color: #2A2623; }
+.pdemo .mk.strike b { text-decoration: line-through; text-decoration-thickness: 4px; text-decoration-color: var(--red); }
+.pdemo .ph { position: absolute; top: -12px; bottom: -12px; left: 0; width: 100%; z-index: 2; } /* full-width track, moved by xPercent */
+.pdemo .ph em { position: absolute; left: -2px; top: 0; bottom: 0; width: 5px; border-radius: 3px; background: var(--ink); }
+/* BEFORE -> AFTER switch band (v7): full card width under the rows, Anton caps. Dark BEFORE while the before clip
+   plays; the red AFTER panel wipes over it ending on the after clip's first frame. With the band the prompt card's
+   minimum height drops 348 -> 300 so the band stays above the caption lane (y 1350+). */
+.pdemo .stack.hasba { grid-template-rows: minmax(300px, auto) auto auto; }
+.pdemo .ba { position: relative; height: 116px; border-radius: 22px; overflow: hidden;
+  box-shadow: 0 26px 54px rgba(0,0,0,.38), 0 4px 10px rgba(0,0,0,.2); }
+.pdemo .ba > div { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--cond); font-size: 92px; line-height: 1; letter-spacing: .08em; text-transform: uppercase; }
+.pdemo .ba .bf { background: #2A2623; color: var(--paper); }
+.pdemo .ba .af { background: var(--red); color: #fff; }
+.pdemo .ba span { display: inline-block; padding-top: 6px; transform-origin: 50% 55%; }

@@ -1,0 +1,277 @@
+{
+ "_doc": "steady-funk-bed: a reference creator's house audio style, measured from 7 reference reels with scripts/ref_audio_profile.py (Demucs htdemucs separation + PANNs CNN14 tags; one primary reel weighted x3). Only numbers are kept; no reference audio. bed/sfx = measured ranges that music_verify.py --preset checks; mix = the music_mix.py defaults (a plan's own duck/eq/sfx/levels still win). The style in one line: one steady funk/soul guitar groove about 13 dB under the voice from frame 0 to the last frame, no ducking, no stops or track switches, and about 3 sub booms per minute (hook boom + section turns) as loud as the voice. Curated on top of the generated preset: mix.eq (darker bus so a Mixkit funk track lands near the reference's bass-heavy centroid), mix.sfx.auto_map (only the hook title card, later title cards and the screen takeover get a sound), mix.sfx.samples (Mixkit Sound Effects Free License, https://mixkit.co/license/#sfxFree) and the boom_big/whoosh levels. To match a different creator, profile their reels with ref_audio_profile.py and save the preset next to this one.",
+ "name": "steady-funk-bed",
+ "source": "7 reference reels, ref_audio_profile.py (Demucs htdemucs + PANNs CNN14), primary reel x3.0",
+ "bed": {
+  "level_lufs": -27.7,
+  "level_range": [
+   -29.5,
+   -23.5
+  ],
+  "below_voice_db_range": [
+   9.2,
+   15.3
+  ],
+  "duck_db": 0.1,
+  "duck_db_range": [
+   -1.9,
+   2.1
+  ],
+  "bpm_range": [
+   91.5,
+   129.3
+  ],
+  "centroid_hz_range": [
+   77,
+   309
+  ],
+  "side_mid_db_range": [
+   -22.5,
+   -7.3
+  ],
+  "max_switches": 0,
+  "max_stops": 0,
+  "end_style": "bed runs to the last frame (hard cut with the video)",
+  "tags": {
+   "genre": [
+    [
+     "Funk",
+     0.053
+    ],
+    [
+     "Swing music",
+     0.035
+    ],
+    [
+     "Soul music",
+     0.02
+    ],
+    [
+     "Reggae",
+     0.019
+    ],
+    [
+     "Electronic music",
+     0.019
+    ],
+    [
+     "Music of Latin America",
+     0.017
+    ]
+   ],
+   "mood": [
+    [
+     "Funny music",
+     0.011
+    ],
+    [
+     "Exciting music",
+     0.008
+    ],
+    [
+     "Happy music",
+     0.006
+    ],
+    [
+     "Tender music",
+     0.005
+    ],
+    [
+     "Sad music",
+     0.002
+    ],
+    [
+     "Scary music",
+     0.002
+    ],
+    [
+     "Angry music",
+     0.0
+    ]
+   ],
+   "instrument": [
+    [
+     "Guitar",
+     0.033
+    ],
+    [
+     "Plucked string instrument",
+     0.022
+    ],
+    [
+     "Brass instrument",
+     0.021
+    ],
+    [
+     "Orchestra",
+     0.017
+    ],
+    [
+     "Drum",
+     0.016
+    ],
+    [
+     "Drum kit",
+     0.015
+    ],
+    [
+     "Violin, fiddle",
+     0.01
+    ],
+    [
+     "Piano",
+     0.008
+    ]
+   ]
+  }
+ },
+ "sfx": {
+  "per_min": 3.2,
+  "per_min_range": [
+   2.0,
+   5.7
+  ],
+  "level_vs_voice_db": 0.2,
+  "level_range": [
+   -11.6,
+   5.7
+  ],
+  "palette": {
+   "impact/boom": 0.69,
+   "pop/click": 0.24,
+   "hit": 0.03,
+   "camera": 0.03
+  },
+  "placement": {
+   "in_pause": 0.07,
+   "at_phrase_start": 0.45,
+   "at_phrase_end": 0.07,
+   "over_speech": 0.93,
+   "zone: hook (first 3 s)": 0.24,
+   "zone: body": 0.62,
+   "zone: end (last 4 s)": 0.14,
+   "on_beat": 0.1,
+   "near_word_onset_<=80ms": 0.62
+  },
+  "hook_share": 0.67,
+  "kind_family": {
+   "impact": "impact/boom",
+   "thump": "impact/boom",
+   "boom": "impact/boom",
+   "whoosh_boom": "impact/boom",
+   "pop": "pop/click",
+   "tick": "pop/click",
+   "click": "pop/click",
+   "ding": "ding/chime",
+   "whoosh": "whoosh",
+   "riser": "riser",
+   "boom_big": "impact/boom"
+  },
+  "hook_window_s": 1.5
+ },
+ "mix": {
+  "section_level": -27.2,
+  "bed_bias_db": 0.5,
+  "section_level_range": [
+   -28.7,
+   -25.7
+  ],
+  "duck": {
+   "depth_db": 0.1
+  },
+  "sfx": {
+   "levels": {
+    "impact": 1.8,
+    "thump": 1.8,
+    "boom": 1.8,
+    "whoosh_boom": 1.8,
+    "pop": -12.0,
+    "tick": -12.0,
+    "click": -12.0,
+    "boom_big": 1.8,
+    "whoosh": -10.0
+   },
+   "hook_level": 2.7,
+   "hook_window": 1.5,
+   "hook_kinds": [
+    "boom",
+    "impact"
+   ],
+   "auto_map": {
+    "titleCard": [
+     [
+      "boom",
+      "from",
+      0.0
+     ]
+    ],
+    "takeover": [
+     [
+      "whoosh",
+      "from",
+      -0.02
+     ],
+     [
+      "boom_big",
+      "from",
+      0.0
+     ]
+    ]
+   },
+   "samples": {
+    "boom": {
+     "mixkit_sfx": 2299,
+     "title": "Short bass hit",
+     "mono": true,
+     "fade_out": 0.15
+    },
+    "boom_big": {
+     "mixkit_sfx": 2303,
+     "title": "Futuristic bass hit",
+     "mono": true,
+     "trim": [
+      0,
+      1.3
+     ],
+     "fade_out": 0.35
+    },
+    "whoosh": {
+     "mixkit_sfx": 1489,
+     "title": "Air woosh",
+     "trim": [
+      0,
+      0.95
+     ],
+     "hit": 0.73,
+     "fade_out": 0.2
+    }
+   },
+   "license": {
+    "provider": "Mixkit",
+    "name": "Mixkit Sound Effects Free License",
+    "url": "https://mixkit.co/license/#sfxFree",
+    "commercialUse": true,
+    "attributionRequired": false
+   }
+  },
+  "eq": {
+   "hp_hz": 35,
+   "dip_hz": 3000,
+   "dip_db": -5,
+   "q": 0.7,
+   "lp_hz": 9500
+  },
+  "music_hint": {
+   "genre": "funk / soul / swing groove, guitar + bass + drum kit",
+   "bpm": [
+    100,
+    115
+   ],
+   "mixkit_tags": [
+    "funk",
+    "mood/relaxed"
+   ],
+   "plan": "one track, one section from 0.0 to the end, in cut / out cut, cue a steady groove bar"
+  }
+ }
+}
